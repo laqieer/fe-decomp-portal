@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import React from 'react';
+import { useState, useEffect } from 'react'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -25,80 +26,6 @@ ChartJS.register(
   Legend
 );
 
-const resp = {
-  "fireemblem8": {
-      "us": {
-          "default": [
-              {
-                  "timestamp": 1680441522,
-                  "git_hash": "5a7cab0f2a553fdad493517d82f8612daf4f573f",
-                  "measures": {
-                      "functions/unmatched": 22,
-                      "functions/total": 8528,
-                      "functions": 4311,
-                      "data/banim": 2380160,
-                      "data": 504690,
-                      "data/total": 1250202,
-                      "symbols/wip": 329,
-                      "symbols": 23874,
-                      "symbols/total": 32395,
-                      "code": 381900,
-                      "code/total": 858300
-                  }
-              },
-              {
-                  "timestamp": 1680365928,
-                  "git_hash": "0b85e25bc0e7dfbc77a4fdfbd73f67d1de188e4d",
-                  "measures": {
-                      "functions/total": 8528,
-                      "functions": 4311,
-                      "data/banim": 2380160,
-                      "data": 504690,
-                      "data/total": 1250202,
-                      "symbols/wip": 329,
-                      "symbols": 23874,
-                      "symbols/total": 32395,
-                      "code": 381900,
-                      "code/total": 858300
-                  }
-              },
-              {
-                  "timestamp": 1680133741,
-                  "git_hash": "9a2f27a962f2cc2e3b315f44b360af645389de3e",
-                  "measures": {
-                      "functions/total": 8528,
-                      "functions": 4296,
-                      "data/banim": 2380160,
-                      "data": 504539,
-                      "data/total": 1250203,
-                      "symbols/wip": 329,
-                      "symbols": 23828,
-                      "symbols/total": 32390,
-                      "code": 380388,
-                      "code/total": 858300
-                  }
-              },
-              {
-                  "timestamp": 1679934080,
-                  "git_hash": "74fded2e809282e7da3e6c74dbba267ac6b095e7",
-                  "measures": {
-                      "functions/total": 8528,
-                      "functions": 4262,
-                      "data/banim": 2380160,
-                      "data": 504539,
-                      "data/total": 1250203,
-                      "symbols/wip": 319,
-                      "symbols": 23803,
-                      "symbols/total": 32380,
-                      "code": 376016,
-                      "code/total": 858300
-                  }
-              }
-          ]
-      }
-  }
-}
-
 export const options = {
   responsive: true,
   plugins: {
@@ -112,45 +39,34 @@ export const options = {
   },
 };
 
-const labels = resp.fireemblem8.us.default.sort((a, b) => a.timestamp - b.timestamp).map((x) => new Date(1000 * x.timestamp).toDateString());
-const functions = resp.fireemblem8.us.default.sort((a, b) => a.timestamp - b.timestamp).map((x) => 100 * x.measures.functions / x.measures['functions/total']);
-const symbols = resp.fireemblem8.us.default.sort((a, b) => a.timestamp - b.timestamp).map((x) => 100 * x.measures.symbols / x.measures['symbols/total']);
-const code = resp.fireemblem8.us.default.sort((a, b) => a.timestamp - b.timestamp).map((x) => 100 * x.measures.code / x.measures['code/total']);
-const data = resp.fireemblem8.us.default.sort((a, b) => a.timestamp - b.timestamp).map((x) => 100 * x.measures.data / x.measures['data/total']);
-
-export const progress = {
-  labels,
-  datasets: [
-    {
-      label: 'functions',
-      data: functions,
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-      label: 'symbols',
-      data: symbols,
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-    {
-      label: 'code',
-      data: code,
-      borderColor: 'green',
-      backgroundColor: 'green',
-    },
-    {
-      label: 'data',
-      data: data,
-      borderColor: 'yellow',
-      backgroundColor: 'yellow',
-    },
-  ],
-};
-
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const [labels, setLabels] = useState([])
+  const [functions, setFunctions] = useState([])
+  const [symbols, setSymbols] = useState([])
+  const [code, setCode] = useState([])
+  const [data, setData] = useState([])
+  const [isLoading, setLoading] = useState(false)
+
+  useEffect(() => {
+    setLoading(true)
+    fetch('https://progress.deco.mp/data/fireemblem8/us/?mode=all')
+      .then((res) => res.json())
+      .then((data) => {
+        const metrics = data.fireemblem8.us.default.sort((a: any, b: any) => a.timestamp - b.timestamp)
+        setLabels(metrics.map((x: any) => new Date(1000 * x.timestamp).toDateString()))
+        setFunctions(metrics.map((x: any) => 100 * x.measures.functions / x.measures['functions/total']))
+        setSymbols(metrics.map((x: any) => 100 * x.measures.symbols / x.measures['symbols/total']))
+        setCode(metrics.map((x: any) => 100 * x.measures.code / x.measures['code/total']))
+        setData(metrics.map((x: any) => 100 * x.measures.data / x.measures['data/total']))
+        setLoading(false)
+      })
+  }, [])
+
+  if (isLoading) return <p>Loading...</p>
+  if (!labels) return <p>No progress data</p>
+
   return (
     <>
       <Head>
@@ -162,7 +78,35 @@ export default function Home() {
       <main className={styles.main}>
         <Line
           options={options}
-          data={progress}
+          data={{
+            labels,
+            datasets: [
+              {
+                label: 'functions',
+                data: functions,
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+              },
+              {
+                label: 'symbols',
+                data: symbols,
+                borderColor: 'rgb(53, 162, 235)',
+                backgroundColor: 'rgba(53, 162, 235, 0.5)',
+              },
+              {
+                label: 'code',
+                data: code,
+                borderColor: 'green',
+                backgroundColor: 'green',
+              },
+              {
+                label: 'data',
+                data: data,
+                borderColor: 'yellow',
+                backgroundColor: 'yellow',
+              },
+            ],
+          }}
         />
 
         <div className={styles.center}>
