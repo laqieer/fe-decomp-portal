@@ -6,7 +6,7 @@ import React from 'react';
 import { useState, useEffect } from 'react'
 import {
   Chart as ChartJS,
-  CategoryScale,
+  TimeScale,
   LinearScale,
   PointElement,
   LineElement,
@@ -15,9 +15,10 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import 'chartjs-adapter-date-fns';
 
 ChartJS.register(
-  CategoryScale,
+  TimeScale,
   LinearScale,
   PointElement,
   LineElement,
@@ -35,6 +36,23 @@ export const options = {
     title: {
       display: true,
       text: 'Fire Emblem 8 (US) Decomop Progress',
+    },
+  },
+  scales: {
+    x: {
+      type: 'time',
+      time: {
+        unit: 'day',
+      },
+    },
+    y: {
+      min: 0,
+      max: 1,
+      ticks: {
+          format: {
+              style: 'percent'
+          }
+      }
     },
   },
 };
@@ -55,11 +73,11 @@ export default function Home() {
       .then((res) => res.json())
       .then((data) => {
         const metrics = data.fireemblem8.us.default.filter((value: any, index: any, self: any) => index === self.findIndex((t: any) => (t.git_hash === value.git_hash))).sort((a: any, b: any) => a.timestamp - b.timestamp)
-        setLabels(metrics.map((x: any) => new Date(1000 * x.timestamp).toDateString()))
-        setFunctions(metrics.map((x: any) => 100 * x.measures.functions / x.measures['functions/total']))
-        setSymbols(metrics.map((x: any) => 100 * x.measures.symbols / x.measures['symbols/total']))
-        setCode(metrics.map((x: any) => 100 * x.measures.code / x.measures['code/total']))
-        setData(metrics.map((x: any) => 100 * x.measures.data / x.measures['data/total']))
+        setLabels(metrics.map((x: any) => new Date(1000 * x.timestamp)))
+        setFunctions(metrics.map((x: any) => x.measures.functions / x.measures['functions/total']))
+        setSymbols(metrics.map((x: any) => x.measures.symbols / x.measures['symbols/total']))
+        setCode(metrics.map((x: any) => x.measures.code / x.measures['code/total']))
+        setData(metrics.map((x: any) => x.measures.data / x.measures['data/total']))
         setLoading(false)
       })
   }, [])
