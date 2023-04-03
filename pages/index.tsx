@@ -54,7 +54,7 @@ export default function Home() {
     fetch('https://progress.deco.mp/data/fireemblem8/us/?mode=all')
       .then((res) => res.json())
       .then((data) => {
-        const metrics = data.fireemblem8.us.default.sort((a: any, b: any) => a.timestamp - b.timestamp)
+        const metrics = data.fireemblem8.us.default.filter((value: any, index: any, self: any) => index === self.findIndex((t: any) => (t.git_hash === value.git_hash))).sort((a: any, b: any) => a.timestamp - b.timestamp)
         setLabels(metrics.map((x: any) => new Date(1000 * x.timestamp).toDateString()))
         setFunctions(metrics.map((x: any) => 100 * x.measures.functions / x.measures['functions/total']))
         setSymbols(metrics.map((x: any) => 100 * x.measures.symbols / x.measures['symbols/total']))
