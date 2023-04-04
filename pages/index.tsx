@@ -42,7 +42,7 @@ export const options = {
     x: {
       type: 'time' as const,
       time: {
-        unit: 'day' as const,
+        unit: 'month' as const,
       },
     },
     y: {
@@ -50,9 +50,9 @@ export const options = {
       max: 1,
       ticks: {
           format: {
-              style: 'percent'
-          }
-      }
+              style: 'percent',
+          },
+      },
     },
   },
 };
@@ -77,7 +77,7 @@ export default function Home() {
         setFunctions(metrics.map((x: any) => x.measures.functions / x.measures['functions/total']))
         setSymbols(metrics.map((x: any) => x.measures.symbols / x.measures['symbols/total']))
         setCode(metrics.map((x: any) => x.measures.code / x.measures['code/total']))
-        setData(metrics.map((x: any) => x.measures.data / x.measures['data/total']))
+        setData(metrics.map((x: any) => (x.measures.data + x.measures['data/banim']) / (x.measures['data/total'] + x.measures['data/banim'])))
         setLoading(false)
       })
   }, [])
@@ -127,81 +127,60 @@ export default function Home() {
           }}
         />
 
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
-
         <div className={styles.grid}>
           <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+            href="https://github.com/laqieer/fe-decomp-portal"
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
           >
             <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
+              Source <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
+              Read source code of this website.
             </p>
           </a>
 
           <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+            href="https://github.com/FireEmblemUniverse/fireemblem8u"
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
           >
             <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
+              Decomp <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
+              Explore Fire Emblem 8 (US) Decomp project.
             </p>
           </a>
 
           <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+            href="https://github.com/decompals/frogress"
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
           >
             <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
+              Frogress <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
+              Learn how to build a decomp progress monitor like this.
             </p>
           </a>
 
           <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+            href="https://laqieer.github.io/"
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
           >
             <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
+              About <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
+              Learn about me.
             </p>
           </a>
         </div>
