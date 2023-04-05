@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import React from 'react';
@@ -13,6 +12,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Colors,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import 'chartjs-adapter-date-fns';
@@ -24,7 +24,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Colors,
 );
 
 export const options = {
@@ -102,26 +103,18 @@ export default function Home() {
               {
                 label: 'functions',
                 data: functions,
-                borderColor: 'rgb(255, 99, 132)',
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
               },
               {
                 label: 'symbols',
                 data: symbols,
-                borderColor: 'rgb(53, 162, 235)',
-                backgroundColor: 'rgba(53, 162, 235, 0.5)',
               },
               {
                 label: 'code',
                 data: code,
-                borderColor: 'green',
-                backgroundColor: 'green',
               },
               {
                 label: 'data',
                 data: data,
-                borderColor: 'yellow',
-                backgroundColor: 'yellow',
               },
             ],
           }}
