@@ -1,88 +1,11 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
-import React from 'react';
-import { useState, useEffect } from 'react'
-import {
-  Chart as ChartJS,
-  TimeScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Colors,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
-import 'chartjs-adapter-date-fns';
-
-ChartJS.register(
-  TimeScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Colors,
-);
-
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top' as const,
-    },
-    title: {
-      display: true,
-      text: 'Fire Emblem 8 (US) Decomop Progress',
-    },
-  },
-  scales: {
-    x: {
-      type: 'time' as const,
-      time: {
-        unit: 'month' as const,
-      },
-    },
-    y: {
-      min: 0,
-      max: 1,
-      ticks: {
-          format: {
-              style: 'percent',
-          },
-      },
-    },
-  },
-};
+import Progress from './progress'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  const [labels, setLabels] = useState([])
-  const [functions, setFunctions] = useState([])
-  const [symbols, setSymbols] = useState([])
-  const [code, setCode] = useState([])
-  const [data, setData] = useState([])
-  const [isLoading, setLoading] = useState(false)
-
-  useEffect(() => {
-    setLoading(true)
-    fetch('https://progress.deco.mp/data/fireemblem8/us/?mode=all')
-      .then((res) => res.json())
-      .then((data) => {
-        const metrics = data.fireemblem8.us.default.filter((value: any, index: any, self: any) => index === self.findIndex((t: any) => (t.git_hash === value.git_hash))).sort((a: any, b: any) => a.timestamp - b.timestamp)
-        setLabels(metrics.map((x: any) => new Date(1000 * x.timestamp)))
-        setFunctions(metrics.map((x: any) => x.measures.functions / x.measures['functions/total']))
-        setSymbols(metrics.map((x: any) => x.measures.symbols / x.measures['symbols/total']))
-        setCode(metrics.map((x: any) => x.measures.code / x.measures['code/total']))
-        setData(metrics.map((x: any) => (x.measures.data + x.measures['data/banim']) / (x.measures['data/total'] + x.measures['data/banim'])))
-        setLoading(false)
-      })
-  }, [])
-
   return (
     <>
       <Head>
@@ -92,29 +15,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Line
-          options={options}
-          data={{
-            labels,
-            datasets: [
-              {
-                label: 'functions',
-                data: functions,
-              },
-              {
-                label: 'symbols',
-                data: symbols,
-              },
-              {
-                label: 'code',
-                data: code,
-              },
-              {
-                label: 'data',
-                data: data,
-              },
-            ],
-          }}
+        <Progress
+          title="Fire Emblem 8: The Sacred Stones (US) Decomp Progress"
+          project="fireemblem8"
+          version="us"
         />
 
         <div className={styles.grid}>
