@@ -20,6 +20,11 @@ export default function Home() {
           project="fireemblem8"
           version="us"
         />
+        <Progress
+          title="Fire Emblem 6: Fūin no Tsurugi (JP) Decomp Progress"
+          project="fireemblem6"
+          version="jp"
+        />
 
         <div className={styles.grid}>
           <a
