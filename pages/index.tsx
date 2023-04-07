@@ -34,7 +34,7 @@ export default function Home() {
             rel="noopener noreferrer"
           >
             <h2 className={inter.className}>
-              Source <span>-&gt;</span>
+              Source Code <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
               Read source code of this website.
@@ -48,10 +48,24 @@ export default function Home() {
             rel="noopener noreferrer"
           >
             <h2 className={inter.className}>
-              Decomp <span>-&gt;</span>
+              FE8U <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
               Explore Fire Emblem 8 (US) Decomp project.
+            </p>
+          </a>
+
+          <a
+            href="https://github.com/StanHash/fe6"
+            className={styles.card}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <h2 className={inter.className}>
+              FE6 <span>-&gt;</span>
+            </h2>
+            <p className={inter.className}>
+              Explore Fire Emblem 6 (JP) Decomp project.
             </p>
           </a>
 
@@ -66,20 +80,6 @@ export default function Home() {
             </h2>
             <p className={inter.className}>
               Learn how to build a decomp progress monitor like this.
-            </p>
-          </a>
-
-          <a
-            href="https://laqieer.github.io/"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              About <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about me.
             </p>
           </a>
         </div>
