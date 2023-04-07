@@ -41,7 +41,7 @@ export default function Progress(props: { title: string; project: string; versio
         setFunctions(metrics.map((x: any) => x.measures.functions / x.measures['functions/total']))
         setSymbols(metrics.map((x: any) => x.measures.symbols / x.measures['symbols/total']))
         setCode(metrics.map((x: any) => x.measures.code / x.measures['code/total']))
-        setData(metrics.map((x: any) => (x.measures.data + x.measures['data/banim'] ?? 0) / (x.measures['data/total'] + x.measures['data/banim'] ?? 0)))
+        setData(metrics.map((x: any) => (x.measures.data + (x.measures['data/banim'] ?? 0)) / (x.measures['data/total'] + (x.measures['data/banim'] ?? 0))))
       })
   }, [props.project, props.version])
 
