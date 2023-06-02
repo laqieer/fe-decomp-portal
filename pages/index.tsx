@@ -25,6 +25,11 @@ export default function Home() {
           project="fireemblem6"
           version="jp"
         />
+        <Progress
+          title="Fire Emblem 7: Rekka no Ken (JP) Decomp Progress"
+          project="fireemblem7j"
+          version="jp"
+        />
 
         <div className={styles.grid}>
           <a
@@ -70,16 +75,16 @@ export default function Home() {
           </a>
 
           <a
-            href="https://github.com/decompals/frogress"
+            href="https://github.com/MokhaLeee/FireEmblem7J"
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
           >
             <h2 className={inter.className}>
-              Frogress <span>-&gt;</span>
+              FE7J <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
-              Learn how to build a decomp progress monitor like this.
+              Explore Fire Emblem 7 (JP) Decomp project.
             </p>
           </a>
         </div>
