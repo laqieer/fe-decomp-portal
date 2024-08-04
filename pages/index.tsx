@@ -61,7 +61,7 @@ export default function Home() {
           </a>
 
           <a
-            href="https://github.com/StanHash/fe6"
+            href="https://github.com/FireEmblemUniverse/fireemblem6j"
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
