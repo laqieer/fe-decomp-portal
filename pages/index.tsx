@@ -30,6 +30,11 @@ export default function Home() {
           project="fireemblem7j"
           version="jp"
         />
+        <Progress
+          title="Fire Emblem 8: Seima no Kouseki (JP) Decomp Progress"
+          project="fireemblem8j"
+          version="jp"
+        />
 
         <div className={styles.grid}>
           <a
@@ -85,6 +90,20 @@ export default function Home() {
             </h2>
             <p className={inter.className}>
               Explore Fire Emblem 7 (JP) Decomp project.
+            </p>
+          </a>
+
+          <a
+            href="https://github.com/laqieer/fireemblem8j"
+            className={styles.card}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <h2 className={inter.className}>
+              FE8J <span>-&gt;</span>
+            </h2>
+            <p className={inter.className}>
+              Explore Fire Emblem 8 (JP) Decomp project.
             </p>
           </a>
         </div>
