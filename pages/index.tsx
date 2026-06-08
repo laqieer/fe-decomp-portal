@@ -52,7 +52,7 @@ export default function Home() {
           </a>
 
           <a
-            href="https://github.com/FireEmblemUniverse/fireemblem8u"
+            href="https://github.com/laqieer/fireemblem8u"
             className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
@@ -111,3 +111,4 @@ export default function Home() {
     </>
   )
 }
+
